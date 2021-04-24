@@ -2,7 +2,7 @@ FROM python:3
 
 WORKDIR /usr/src/app
 
-RUN pip install --no-cache-dir requests prometheus_client
+RUN pip3 install --no-cache-dir requests prometheus_client
 
 COPY . .
 

@@ -1,0 +1,120 @@
+# HELP meter_current_amps Current
+# TYPE meter_current_amps gauge
+# HELP meter_frequency_hertz Frequency
+# TYPE meter_frequency_hertz gauge
+# HELP meter_power_factor_ratio Power Factor
+# TYPE meter_power_factor_ratio gauge
+# HELP production_active_count Active Count
+# TYPE production_active_count gauge
+production_active_count{type="inverters"} 38.0
+production_active_count{type="eim"} 1.0
+# HELP power_now_watts Active Count
+# TYPE power_now_watts gauge
+power_now_watts{type="inverters"} 2838.0
+power_now_watts{type="eim"} 3510.882
+# HELP production_today_watthours Total production today
+# TYPE production_today_watthours gauge
+production_today_watthours{type="eim"} 2237.406
+# HELP production_7days_watthours Total production last seven days
+# TYPE production_7days_watthours gauge
+production_7days_watthours{type="eim"} 151565.406
+# HELP production_lifetime_watthours Total production lifetime
+# TYPE production_lifetime_watthours gauge
+production_lifetime_watthours{type="inverters"} 154786.0
+production_lifetime_watthours{type="eim"} 151837.406
+# HELP consumption_now_watts Active Count
+# TYPE consumption_now_watts gauge
+consumption_now_watts{type="total-consumption"} 2665.454
+consumption_now_watts{type="net-consumption"} -845.428
+# HELP consumption_today_watthours Total consumption today
+# TYPE consumption_today_watthours gauge
+consumption_today_watthours{type="total-consumption"} 9492.19
+consumption_today_watthours{type="net-consumption"} 0.0
+# HELP consumption_7days_watthours Total consumption last seven days
+# TYPE consumption_7days_watthours gauge
+consumption_7days_watthours{type="total-consumption"} 146515.19
+consumption_7days_watthours{type="net-consumption"} 0.0
+# HELP consumption_lifetime_watthours Total consumption lifetime
+# TYPE consumption_lifetime_watthours gauge
+consumption_lifetime_watthours{type="total-consumption"} 146580.19
+consumption_lifetime_watthours{type="net-consumption"} 81838.33
+# HELP inverter_last_report_watts Last reported watts
+# TYPE inverter_last_report_watts gauge
+inverter_last_report_watts{location="South",serial="122007058453"} 82.0
+inverter_last_report_watts{location="South",serial="202010027375"} 60.0
+inverter_last_report_watts{location="East",serial="122009101485"} 111.0
+inverter_last_report_watts{location="East",serial="122009101919"} 110.0
+inverter_last_report_watts{location="East",serial="122009090473"} 111.0
+inverter_last_report_watts{location="East",serial="122009091799"} 111.0
+inverter_last_report_watts{location="East",serial="122009100520"} 108.0
+inverter_last_report_watts{location="South",serial="122009090358"} 91.0
+inverter_last_report_watts{location="West",serial="202010027455"} 20.0
+inverter_last_report_watts{location="South",serial="202010028310"} 82.0
+inverter_last_report_watts{location="East",serial="122009102189"} 109.0
+inverter_last_report_watts{location="West",serial="202010028299"} 20.0
+inverter_last_report_watts{location="South",serial="202010024508"} 84.0
+inverter_last_report_watts{location="South",serial="122007070980"} 85.0
+inverter_last_report_watts{location="South",serial="202010026589"} 86.0
+inverter_last_report_watts{location="East",serial="122009108321"} 110.0
+inverter_last_report_watts{location="East",serial="122009101008"} 112.0
+inverter_last_report_watts{location="West",serial="202010023216"} 20.0
+inverter_last_report_watts{location="South",serial="122009102313"} 90.0
+inverter_last_report_watts{location="West",serial="202010027771"} 8.0
+inverter_last_report_watts{location="West",serial="202010027743"} 20.0
+inverter_last_report_watts{location="East",serial="122009101595"} 111.0
+inverter_last_report_watts{location="East",serial="122009090470"} 112.0
+inverter_last_report_watts{location="West",serial="202010025360"} 20.0
+inverter_last_report_watts{location="South",serial="202010015498"} 81.0
+inverter_last_report_watts{location="West",serial="202010027734"} 6.0
+inverter_last_report_watts{location="West",serial="202010028406"} 19.0
+inverter_last_report_watts{location="East",serial="122009090297"} 108.0
+inverter_last_report_watts{location="South",serial="122009092522"} 89.0
+inverter_last_report_watts{location="East",serial="122009090314"} 109.0
+inverter_last_report_watts{location="South",serial="202010026755"} 85.0
+inverter_last_report_watts{location="South",serial="122009101914"} 90.0
+inverter_last_report_watts{location="West",serial="202010027744"} 19.0
+inverter_last_report_watts{location="East",serial="122009092985"} 109.0
+inverter_last_report_watts{location="South",serial="202010027988"} 51.0
+inverter_last_report_watts{location="East",serial="122009102188"} 108.0
+inverter_last_report_watts{location="West",serial="202010023428"} 9.0
+inverter_last_report_watts{location="South",serial="202010026555"} 84.0
+# HELP inverter_max_report_watts Max reported watts
+# TYPE inverter_max_report_watts gauge
+inverter_max_report_watts{location="South",serial="122007058453"} 240.0
+inverter_max_report_watts{location="South",serial="202010027375"} 239.0
+inverter_max_report_watts{location="East",serial="122009101485"} 175.0
+inverter_max_report_watts{location="East",serial="122009101919"} 173.0
+inverter_max_report_watts{location="East",serial="122009090473"} 175.0
+inverter_max_report_watts{location="East",serial="122009091799"} 175.0
+inverter_max_report_watts{location="East",serial="122009100520"} 135.0
+inverter_max_report_watts{location="South",serial="122009090358"} 246.0
+inverter_max_report_watts{location="West",serial="202010027455"} 215.0
+inverter_max_report_watts{location="South",serial="202010028310"} 237.0
+inverter_max_report_watts{location="East",serial="122009102189"} 172.0
+inverter_max_report_watts{location="West",serial="202010028299"} 216.0
+inverter_max_report_watts{location="South",serial="202010024508"} 241.0
+inverter_max_report_watts{location="South",serial="122007070980"} 242.0
+inverter_max_report_watts{location="South",serial="202010026589"} 243.0
+inverter_max_report_watts{location="East",serial="122009108321"} 174.0
+inverter_max_report_watts{location="East",serial="122009101008"} 174.0
+inverter_max_report_watts{location="West",serial="202010023216"} 215.0
+inverter_max_report_watts{location="South",serial="122009102313"} 244.0
+inverter_max_report_watts{location="West",serial="202010027771"} 218.0
+inverter_max_report_watts{location="West",serial="202010027743"} 219.0
+inverter_max_report_watts{location="East",serial="122009101595"} 173.0
+inverter_max_report_watts{location="East",serial="122009090470"} 174.0
+inverter_max_report_watts{location="West",serial="202010025360"} 221.0
+inverter_max_report_watts{location="South",serial="202010015498"} 239.0
+inverter_max_report_watts{location="West",serial="202010027734"} 219.0
+inverter_max_report_watts{location="West",serial="202010028406"} 217.0
+inverter_max_report_watts{location="East",serial="122009090297"} 172.0
+inverter_max_report_watts{location="South",serial="122009092522"} 244.0
+inverter_max_report_watts{location="East",serial="122009090314"} 172.0
+inverter_max_report_watts{location="South",serial="202010026755"} 244.0
+inverter_max_report_watts{location="South",serial="122009101914"} 246.0
+inverter_max_report_watts{location="West",serial="202010027744"} 217.0
+inverter_max_report_watts{location="East",serial="122009092985"} 172.0
+inverter_max_report_watts{location="South",serial="202010027988"} 242.0
+inverter_max_report_watts{location="East",serial="122009102188"} 171.0
+inverter_max_report_watts{location="West",serial="202010023428"} 215.0
+inverter_max_report_watts{location="South",serial="202010026555"} 241.0

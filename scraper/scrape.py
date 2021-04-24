@@ -10,52 +10,69 @@ from prometheus_client import start_http_server, Gauge
 
 
 host = os.getenv('ENVOY_HOST')
+username = os.getenv('ENVOY_USER')
 password = os.getenv('ENVOY_PASS')
 
-user = 'installer'
-auth = HTTPDigestAuth(user, password)
+#user = 'envoy'
+auth = HTTPDigestAuth(username, password)
 marker = b'data: '
 
+inverter_period = int(os.getenv('INVERTER_PERIOD'))
+production_period = int(os.getenv('PRODUCTION_PERIOD'))
 
 serials = {
-    121850001173: 'rear',
-    121849122280: 'rear',
-    121850012348: 'rear',
-    121850001997: 'rear',
-    121850002880: 'rear',
-    121850011577: 'rear',
-    121850002061: 'rear',
-    121849108018: 'rear',
 
-    121850002885: 'middle',
-    121850010982: 'middle',
-    121850004755: 'middle',
-    121850006401: 'middle',
-    121850011134: 'middle',
-    121850007048: 'middle',
-    121850012763: 'middle',
-    121849122422: 'middle',
+    122007058453: 'South',
+    122007070980: 'South',
+    122009090297: 'East',
+    122009090314: 'East',
+    122009090358: 'South',
+    122009090470: 'East',
+    122009090473: 'East',
+    122009091799: 'East',
+    122009092522: 'South',
+    122009092985: 'East',
+    122009100520: 'East',
+    122009101008: 'East',
+    122009101485: 'East',
+    122009101595: 'East',
+    122009101914: 'South',
+    122009101919: 'East',
+    122009102188: 'East',
+    122009102189: 'East',
+    122009102313: 'South',
+    122009108321: 'East',
+    202010015498: 'South',
+    202010023216: 'West',
+    202010023428: 'West',
+    202010024508: 'South',
+    202010025360: 'West',
+    202010026555: 'South',
+    202010026589: 'South',
+    202010026755: 'South',
+    202010027375: 'South',
+    202010027455: 'West',
+    202010027734: 'West',
+    202010027743: 'West',
+    202010027744: 'West',
+    202010027771: 'West',
+    202010027988: 'South',
+    202010028299: 'West',
+    202010028310: 'South',
+    202010028406: 'West',
 
-    121850001861: 'front',
-    121849112294: 'front',
-    121850012825: 'front',
-    121850005175: 'front',
-    121850002882: 'front',
-    121850001010: 'front',
-    121850011206: 'front',
-    121850000865: 'front',
 }
 
 
-stream_gauges = {
-    'p': Gauge('meter_active_power_watts', 'Active Power', ['type', 'phase']),
-    'q': Gauge('meter_reactive_power_watts', 'Reactive Power', ['type', 'phase']),
-    's': Gauge('meter_apparent_power_watts', 'Apparent Power', ['type', 'phase']),
-    'v': Gauge('meter_voltage_volts', 'Voltage', ['type', 'phase']),
-    'i': Gauge('meter_current_amps', 'Current', ['type', 'phase']),
-    'f': Gauge('meter_frequency_hertz', 'Frequency', ['type', 'phase']),
-    'pf': Gauge('meter_power_factor_ratio', 'Power Factor', ['type', 'phase']),
-}
+#stream_gauges = {
+#    'p': Gauge('meter_active_power_watts', 'Active Power', ['type', 'phase']),
+#    'q': Gauge('meter_reactive_power_watts', 'Reactive Power', ['type', 'phase']),
+#    's': Gauge('meter_apparent_power_watts', 'Apparent Power', ['type', 'phase']),
+#    'v': Gauge('meter_voltage_volts', 'Voltage', ['type', 'phase']),
+#    'i': Gauge('meter_current_amps', 'Current', ['type', 'phase']),
+#    'f': Gauge('meter_frequency_hertz', 'Frequency', ['type', 'phase']),
+#    'pf': Gauge('meter_power_factor_ratio', 'Power Factor', ['type', 'phase']),
+#}
 
 production_gauges = {
     'activeCount': Gauge('production_active_count', 'Active Count', ['type']),
@@ -63,6 +80,9 @@ production_gauges = {
     'whToday': Gauge('production_today_watthours', 'Total production today', ['type']),
     'whLastSevenDays': Gauge('production_7days_watthours', 'Total production last seven days', ['type']),
     'whLifetime': Gauge('production_lifetime_watthours', 'Total production lifetime', ['type']),
+    'rmsCurrent': Gauge('production_rms_current', 'Production RMS Current', ['type']),
+    'rmsVoltage': Gauge('production_rms_voltage', 'Production RMS Voltage', ['type']),
+    'pwrFactor': Gauge('production_power_factor', 'Production Power Factor', ['type']),
 }
 
 consumption_gauges = {
@@ -70,6 +90,9 @@ consumption_gauges = {
     'whToday': Gauge('consumption_today_watthours', 'Total consumption today', ['type']),
     'whLastSevenDays': Gauge('consumption_7days_watthours', 'Total consumption last seven days', ['type']),
     'whLifetime': Gauge('consumption_lifetime_watthours', 'Total consumption lifetime', ['type']),
+    'rmsCurrent': Gauge('consumption_rms_current', 'Consumption RMS Current', ['type']),
+    'rmsVoltage': Gauge('consumption_rms_voltage', 'Consumption RMS Voltage', ['type']),
+    'pwrFactor': Gauge('consumption_power_factor', 'Consumption Power Factor', ['type']),
 }
 
 inverter_gauges = {
@@ -101,18 +124,18 @@ def scrape_production_json():
     url = 'http://%s/production.json' % host
     data = requests.get(url).json()
     production = data['production']
-    print(production)
+#    print(production)
     for each in production:
         mtype = each['type']
-        for key in ['activeCount', 'wNow', 'whLifetime', 'whToday', 'whLastSevenDays']:
+        for key in ['activeCount', 'wNow', 'whLifetime', 'whToday', 'whLastSevenDays', 'rmsCurrent', 'rmsVoltage', 'pwrFactor']:
             value = each.get(key)
             if value is not None:
                 production_gauges[key].labels(type=mtype).set(value)
     consumption = data['consumption']
-    print(consumption)
+#    print(consumption)
     for each in consumption:
         mtype = each['measurementType']
-        for key in ['wNow', 'whLifetime', 'whToday', 'whLastSevenDays']:
+        for key in ['wNow', 'whLifetime', 'whToday', 'whLastSevenDays', 'rmsCurrent', 'rmsVoltage', 'pwrFactor']:
             value = each.get(key)
             if value is not None:
                 consumption_gauges[key].labels(type=mtype).set(value)
@@ -122,7 +145,7 @@ def scrape_production_json():
 def scrape_inverters():
     url = 'http://%s/api/v1/production/inverters' % host
     data = requests.get(url, auth=auth).json()
-    print(data)
+#    print(data)
     for inverter in data:
         serial = int(inverter['serialNumber'])
         location = serials.get(serial, 'unknown')
@@ -132,16 +155,25 @@ def scrape_inverters():
 
 def main():
     start_http_server(8000)
-    stream_thread = threading.Thread(target=scrape_stream)
-    stream_thread.setDaemon(True)
-    stream_thread.start()
+#    stream_thread = threading.Thread(target=scrape_stream)
+#    stream_thread.setDaemon(True)
+#    stream_thread.start()
+    counter = 0
     while True:
-        try:
-            scrape_production_json()
-            scrape_inverters()
-        except Exception as e:
-            print('Exception fetching scrape data: %s' % e)
-        time.sleep(60)
+        counter += 1
+        if counter % production_period == 0: 
+            try:
+                scrape_production_json()
+            except Exception as e:
+                print('Exception fetching production data: %s' % e)
+        time.sleep(30)
+        if counter % inverter_period == 0:
+            try:
+                scrape_inverters()
+            except Exception as e:
+                print('Exception fetching inverters data: %s' % e)
+            counter = 0
+        time.sleep(30)
 
 
 if __name__ == '__main__':
