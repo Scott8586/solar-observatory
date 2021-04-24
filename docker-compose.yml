@@ -83,3 +83,15 @@ services:
       INVERTER_PERIOD: 15
       PRODUCTION_PERIOD: 5
       
+  weather:
+    container_name: weewx_scraper
+    build: weather
+    user: "1001"
+    ports:
+      - 8001:8001
+    networks:
+      - back-tier
+    restart: always
+    environment:
+      WEEWX_HOST: 192.168.35.157
+
