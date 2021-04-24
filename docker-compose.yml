@@ -11,11 +11,12 @@ networks:
 services:
 
   prometheus:
+    container_name: prometheus
     image: prom/prometheus:latest
-    user: "1000"
+    user: "1001"
     volumes:
-      - ./prometheus/:/etc/prometheus/
-      - ./prometheus_data:/prometheus
+      - /usr/data/prometheus/:/etc/prometheus/
+      - /usr/data/prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -28,6 +29,7 @@ services:
     restart: always
 
   node-exporter:
+    container_name: node_exporter
     image: prom/node-exporter
     volumes:
       - /:/host:ro,rslave
@@ -37,24 +39,27 @@ services:
       - '--path.procfs=/host/proc' 
       - '--path.sysfs=/host/sys'
       - '--path.rootfs=/host'
-      - --collector.filesystem.ignored-mount-points
-      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
-      - --collector.netdev.ignored-devices
-      - "^(lo|docker[0-9]|veth.+|br-.+)$$"
+#      - --collector.filesystem.ignored-mount-points
+#      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+#      - --collector.netdev.ignored-devices
+#      - "^(lo|docker[0-9]|veth.+|br-.+)$$"
     ports:
       - 9100:9100
+#    networks:
+#      - back-tier
     restart: always
 
   grafana:
+    container_name: grafana
     image: grafana/grafana
-    user: "1000"
+    user: "1001"
     depends_on:
       - prometheus
     ports:
       - 3000:3000
     volumes:
-      - ./grafana_data:/var/lib/grafana
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - /usr/data/grafana_data:/var/lib/grafana
+      - /usr/data/grafana/provisioning/:/etc/grafana/provisioning/
     env_file:
       - ./grafana/config.monitoring
     networks:
@@ -63,13 +68,18 @@ services:
     restart: always
 
   scraper:
+    container_name: envoy_scraper
     build: scraper
-    user: "1000"
+    user: "1001"
     ports:
       - 8000:8000
     networks:
       - back-tier
     restart: always
     environment:
-      ENVOY_HOST: 192.168.86.54
-      ENVOY_PASS: PASSWORD
+      ENVOY_HOST: 192.168.35.221
+      ENVOY_USER: envoy
+      ENVOY_PASS: 090519 
+      INVERTER_PERIOD: 15
+      PRODUCTION_PERIOD: 5
+      
